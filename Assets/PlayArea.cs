@@ -26,7 +26,7 @@ public class PlayArea : MonoBehaviour {
             UnityEngine.Debug.Log ("Couroutine!");
             yield return new WaitForSeconds (0.5f);
         }
-     }
+    }
 
     void Update () {
         Vector3 currentPosition = transform.position;
