@@ -9,9 +9,8 @@ public class Player : MonoBehaviour {
     private Animator animator;
     private Rigidbody rigidbody;
 
-    private void OnTriggerEnter(Collider other)
-    {
-        SendMessageUpwards("GameOver");
+    private void OnTriggerEnter (Collider other) {
+        SendMessageUpwards ("GameOver");
     }
 
     // Start is called before the first frame update
@@ -25,25 +24,15 @@ public class Player : MonoBehaviour {
     void Update () {
         if (Input.GetKeyDown ("space")) {
             animator.SetBool ("isFlapping", true);
-            UnityEngine.Debug.Log ("Flapping");
-            rigidbody.AddForce (new Vector3(0, 1, 0) * flapForceMagnitued, 
-               ForceMode.Impulse);
+            rigidbody.AddForce (new Vector3 (0, 1, 0) * flapForceMagnitued,
+                ForceMode.Impulse);
         } else {
-            if (animator.GetBool ("isFlapping")) {
+            Vector3 velocity = rigidbody.velocity;
+            if (velocity.y < -1.5f && animator.GetBool ("isFlapping")) {
                 animator.SetBool ("isFlapping", false);
-                UnityEngine.Debug.Log ("Not Flapping");
             }
-        }
-        if (Input.GetKey ("up")) {
             Vector3 currentPosition = transform.position;
-            currentPosition.y += deltaYPerFrame;
-            transform.position = currentPosition;
-        }
-
-        if (Input.GetKey ("down")) {
-            Vector3 currentPosition = transform.position;
-            currentPosition.y -= deltaYPerFrame;
-            transform.position = currentPosition;
+            animator.SetBool ("onGround", 0.1f > currentPosition.y);
         }
     }
 }

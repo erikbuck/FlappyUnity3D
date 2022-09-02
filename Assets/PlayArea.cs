@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -5,41 +6,46 @@ using UnityEngine;
 
 public class PlayArea : MonoBehaviour {
     public List<Transform> playAreaCells = new List<Transform> ();
-    public int numberOfCells = 8;
-    public float deltaZPerFrame = 0.01f;
+    public int numberOfCells = 4;
+    public float deltaZPerSecond = 1.0f;
 
-    List<Transform> currentCells = new List<Transform> ();
-    int lastZ = 0;
-    int nextZ = 0;
+    private List<Transform> currentCells = new List<Transform> ();
+    private int nearEdgeZ = 0;
+    private int farEdgeZ = 0;
 
     void Start () {
-        for (int i = 0; i < numberOfCells; i++) {
-            nextZ = i;
-            currentCells.Add (Instantiate (playAreaCells[i % playAreaCells.Count],
-                new Vector3 (0, 0, nextZ), Quaternion.identity, transform));
+        for (; farEdgeZ < numberOfCells; farEdgeZ++) {
+            int prefabCellIndex = UnityEngine.Random.Range (0, playAreaCells.Count);
+            currentCells.Add (Instantiate (playAreaCells[prefabCellIndex],
+                new Vector3 (0, 0, farEdgeZ), Quaternion.identity, transform));
         }
-        StartCoroutine ("moveCells");
+        StartCoroutine ("LowPeriodUpdate");
     }
 
-    IEnumerator moveCells () {
-        while(true) {
-            UnityEngine.Debug.Log ("Couroutine!");
-            yield return new WaitForSeconds (0.5f);
+    IEnumerator LowPeriodUpdate () {
+        while (true) {
+            yield return new WaitForSeconds (0.2f);
+            Vector3 currentPosition = transform.position;
+            int currentPositionZ = (int) currentPosition.z;
+
+            while (nearEdgeZ < -currentPositionZ) {
+                Destroy (currentCells[0].gameObject);
+                currentCells.RemoveAt (0);
+                nearEdgeZ += 1;
+            }
+            while (currentCells.Count < numberOfCells) {
+                int prefabCellIndex = UnityEngine.Random.Range (0, playAreaCells.Count);
+                currentCells.Add (Instantiate (
+                    playAreaCells[prefabCellIndex],
+                    new Vector3 (0, 0, farEdgeZ + currentPosition.z), Quaternion.identity, transform));
+                farEdgeZ += 1;
+            }
         }
     }
 
     void Update () {
         Vector3 currentPosition = transform.position;
-        currentPosition.z += deltaZPerFrame;
+        currentPosition.z += deltaZPerSecond * Time.deltaTime;
         transform.position = currentPosition;
-        if (lastZ > (int) currentPosition.z) {
-            Destroy (currentCells[0].gameObject, 2.0f);
-            currentCells.RemoveAt (0);
-            lastZ = (int) currentPosition.z;
-            currentCells.Add (Instantiate (
-                playAreaCells[(-lastZ) % playAreaCells.Count],
-                new Vector3 (0, 0, nextZ), Quaternion.identity, transform));
-            nextZ += 1;
-        }
     }
 }

@@ -329,11 +329,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playAreaCells:
-  - {fileID: 1159066021244595465, guid: 55fd7a47ff73e4dd1b53309800a0668f, type: 3}
-  - {fileID: 5601426086599291191, guid: ac390396bd7b24eed92b5e8abaf309fe, type: 3}
-  - {fileID: 4176087124344634159, guid: 590d25828cbb44a079bf9fff7778345c, type: 3}
+  - {fileID: 7040055867687319493, guid: f2e8d2f338735461d97742fa555a44b8, type: 3}
+  - {fileID: 7866813331789725646, guid: a32ee19f476364d9aa56b321b5afa291, type: 3}
+  - {fileID: 7974326220870431222, guid: 676ba9122f19a455c8a584b342ab909c, type: 3}
   numberOfCells: 32
-  deltaZPerFrame: -0.01
+  deltaZPerSecond: -1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,8 +503,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: -0.17564826, y: 0.19843405, z: -0.036172416, w: -0.963568}
-  m_LocalPosition: {x: 0.9532936, y: 1.2132971, z: -1.2240461}
+  m_LocalRotation: {x: 0.0011804254, y: 0.13072285, z: 0.00015566034, w: -0.99141824}
+  m_LocalPosition: {x: 0.7370539, y: 0.86779994, z: -1.3986037}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 559414796}
